@@ -1,0 +1,171 @@
+<extend name="Layout/Back" />
+<block name="content">
+<div id="content">
+  <div class="page-header">
+    <div class="container-fluid">
+      <div class="pull-right">
+        <button data-original-title="保存" type="submit" form="form-setting" data-toggle="tooltip" title="" class="btn btn-primary"> <i class="fa fa-save"></i>
+        </button>
+        <a data-original-title="取消" href="http://php.kang.com/test/s/admin/index.php?route=setting/store&amp;token=8qLqiUzfLtLyiUkqAmSQizqIbLYbeUCm" data-toggle="tooltip" title="" class="btn btn-default"> <i class="fa fa-reply"></i>
+        </a>
+      </div>
+      <h1>系统设置</h1>
+      <ul class="breadcrumb">
+        <li>
+          <a href="">首页</a>
+        </li>
+        <li>
+          <a href="">商店</a>
+        </li>
+        <li>
+          <a href="">系统设置</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div class="container-fluid">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">
+          <i class="fa fa-pencil"></i>
+          编辑系统设置
+        </h3>
+      </div>
+      <div class="panel-body">
+        <form action="{:U('/Back/System/update')}" method="post" enctype="multipart/form-data" id="form-setting" class="form-horizontal">
+          <ul class="nav nav-tabs">
+          <volist name="gruop_list" id="group">
+		           <if condition="$i eq 1">
+		                <assign  name="first_group_id" value="$group[setting_group_id]"/>
+		               
+			            <li class="active">
+			              <a aria-expanded="true" href="#tab-{$group[setting_group_id]}" data-toggle="tab">{$group[group_key]}</a>
+			            </li>
+		              <else/> 
+			            <li class="">
+			              <a aria-expanded="false" href="#tab-{$group[setting_group_id]}" data-toggle="tab">{$group[group_key]}</a>
+			            </li>
+		            </if>
+           </volist>
+          </ul>
+       
+        
+          <div class="tab-content">
+          
+              <volist name="set_list" id= "grouped_list" >
+               
+                    
+		               <if condition="$key eq $first_group_id">
+			               <div class="tab-pane active" id="tab-{$key}">
+			             <else/>
+			               <div class="tab-pane " id="tab-{$key}">
+			           </if>
+			              <volist name="grouped_list" id="setting">
+			               
+				             
+				                     
+					                 <div class="form-group required">
+		                              <label class="col-sm-2 control-label" for="input-owner">{$setting['setting_title']}</label>
+			                             <div class="col-sm-10">
+			                             
+			                          
+			                               <if condition="$setting['type_title'] eq 'text'">
+			                                <input type="text" name="setting[{$setting['setting_id']}]" value="{$setting['setting_value']}" placeholder="" id="{$setting['setting_id']}"  data-id="{$setting['setting_id']}" class="form-control">
+			                               <elseif condition="$setting['type_title'] eq 'textarea'"/> 
+			                                <textarea id="{$setting['setting_id']}" class="form-control" name="setting[{$setting['setting_id']}]" data-id="{$setting['setting_id']}" placeholder="联系地址" rows="5">{$setting['setting_value']}</textarea>
+			                               <elseif condition="$setting['type_title'] eq 'select'"/>
+			                                 <select name="setting[{$setting['setting_id']}]" id="{$setting['setting_id']}"  data-id="{$setting['setting_id']}" class="form-control">
+							                     <volist name="setting['option_list']" id="opt_list">
+							                       <if condition="$setting['setting_value'] eq $opt_list[0]">
+							                       <option value="{$opt_list[0]}" name="{$setting['setting_key']}" selected="selected">{$opt_list[1]}</option>
+							                       <else/>
+							                        <option value="{$opt_list[0]}" name="{$setting['setting_key']}" >{$opt_list[1]}</option>
+							                       </if>
+							                    </volist>
+                			 			    </select>
+			                               <elseif condition="$setting['type_title'] eq 'checkbox'"/> 
+			                                     <div class="well well-sm" style="height: 150px; overflow: auto;"> 
+			                                       <volist name="setting['option_list']" id="opt_list" >  
+							                			  <div class="checkbox">
+							                			   <if condition="in_array($opt_list[0],$setting['setting_value'])">
+								                			  <label>
+								                                <input type="checkbox" name="setting[{$setting['setting_id']}][]"  data-id="{$setting['setting_id']}"  data-name="box" value="{$opt_list[0]}" checked="checked">{$opt_list[1]}
+								                              </label>
+								                            <else/>
+								                              <label>
+								                                <input type="checkbox" name="setting[{$setting['setting_id']}][]"  data-id="{$setting['setting_id']}"  data-name="box"  value="{$opt_list[0]}" >{$opt_list[1]}
+								                              </label>
+								                           </if>
+							                               </div>
+		                			 			   </volist> 
+		                			 			</div>
+			                               </if>
+			                               
+			                               
+			                             </div>
+		                             </div>
+				               
+			              </volist>
+		                 
+			              </div>
+	          </volist>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+     $(function()
+    		 {
+    	  $("input,select,textarea").blur(function(){
+    		  var dataValue ;
+    		  if($(this).attr('type') =='checkbox')
+	        	 {
+    			     var nameStr = $(this).attr('data-name');
+    			     var dataList = [];
+    			     $("input[data-name="+nameStr+"]:checked").each(function(i)
+    			    		 {
+    			    	           dataList[i] = $(this).val();
+    			    		 });
+//     			     console.log(dataList);
+    			    dataValue =dataList.join(',');  
+	        	 }
+    		  else
+	        	  {
+    			     dataValue =$(this).val();  
+	        	  }
+    		  var dataId = $(this).attr('data-id');
+			     console.log(dataValue);
+   		      var data={
+   		    		 'setting_id':dataId,
+   		    		 'setting_value':dataValue
+   		      }
+    	      
+   		      var url = "{:U('Back/System/updateOne')}";
+   		      
+   		      $.post(url,data,function(response)
+   		    		  {
+   		    	             if(response.error == 0)
+   		    	        	  {
+   		    	        	     
+   		    	            	  console.log("更新成功");
+   		    	        	  }
+   		    	             else
+   		    	            	 {
+   		    	            	   console.info("更新失败");
+   		    	            	 }
+   		    		  },'json');
+   		      
+   		      
+    	         
+    	         });
+    	          
+     	   
+    		 });      
+           
+  
+</script>
+
+
+</block>

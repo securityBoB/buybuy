@@ -1,0 +1,36 @@
+<extend name="Layout/Home" />
+<block name="content">
+<div class="container">
+	<ul class="breadcrumb">
+		<li><a
+			href=""><i
+				class="fa fa-home"></i></a></li>
+		<li><a
+			href="">购物车内的商品</a></li>
+	</ul>
+	<div class="row">
+	<div class="col-sm-12" id="content" >
+       <include file="Checkout/cartContent"/>
+   </div>
+	</div>
+</div>
+   <script type="text/javascript">
+		    
+		            function cartRemove(goods_id,gav_list)
+		            {    
+		            	  $.ajax({
+	                           url:'{:U('Home/Checkout/removeCart')}',
+		            	       dataType:'html',
+		            	       type:'post',
+		            	       data:{
+		            	    	   goods_id:goods_id,
+		            	    	   gav_list:gav_list
+		            	       },
+	                           success:function(response)
+	                           {   
+	                        	   $('#content').load('{:U('Home/Checkout/cart',['is_ajax'=>1])}');
+	                           }
+                              });
+		            }
+		   </script>
+</block>

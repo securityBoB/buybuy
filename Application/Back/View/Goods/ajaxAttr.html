@@ -1,0 +1,43 @@
+<volist name="attr_list" id="attr">
+<div class="form-group">
+
+	<label class="col-sm-2 control-label" for="input-type-id"> <span
+		data-original-title="" data-toggle="tooltip" title="">{$attr['title']}</span>
+	</label>
+	<if condition="$attr['attr_type_title'] eq 'select_multiple'">
+	<div class="col-sm-1"><input type="checkbox" name="is_option[]" value="{$attr['attribute_id']}"></div>
+	<else/>
+	<div class="col-sm-1"></div>
+	</if>
+	
+	<div class="col-sm-9">
+   
+
+		<if condition="$attr['attr_type_title'] eq 'text'"> <input
+			type="text" name="attribute[{$attr['attribute_id']}]"
+			class="form-control"> <elseif
+			condition="$attr['attr_type_title'] eq 'select'" /> <select
+			name="attribute[{$attr['attribute_id']}]" id="input-goods-type-id"
+			class="form-control">
+			<volist name="attr['option_list']" id="opt">
+			<option value="{$opt['attribute_value_id']}">{$opt['value']}</option>
+			</volist>
+		</select>
+       <elseif condition="$attr['attr_type_title'] eq 'select_multiple'" />
+		<div class="well well-sm" style="height: 150px; overflow: auto;">
+			<volist name="attr['option_list']" id="opt">
+			<div class="checkbox">
+			
+				 <label> <input type="checkbox"
+					name="attribute[{$attr['attribute_id']}][]"
+					
+					value="{$opt['attribute_value_id']}">{$opt['value']}
+				</label> 
+			</div>
+			</volist>
+		</div>
+		</if>
+		
+	</div>
+</div>
+</volist>

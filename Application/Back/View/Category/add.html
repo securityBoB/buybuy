@@ -1,0 +1,164 @@
+<extend name="Layout/Back" />
+<block name="content">
+
+<div id="content">
+    <div class="page-header">
+      <div class="container-fluid">
+        <div class="pull-right">
+          <button type="submit" form="form-category" data-toggle="tooltip" title="保存" class="btn btn-primary">
+            <i class="fa fa-save"></i>
+          </button>
+          <a href="" data-toggle="tooltip" title="取消" class="btn btn-default">
+            <i class="fa fa-reply"></i>
+          </a>
+        </div>
+        <h1>商品分类</h1>
+        <ul class="breadcrumb">
+          <li>
+            <a href="">首页</a>
+          </li>
+          <li>
+            <a href="">商品分类</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="container-fluid">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h3 class="panel-title">
+            <i class="fa fa-pencil"></i>
+            添加商品分类
+          </h3>
+        </div>
+        <div class="panel-body">
+          <form action="{:U('Back/Category/add')}" method="post" enctype="multipart/form-data" id="form-category" class="form-horizontal">
+            <ul class="nav nav-tabs">
+              <li class="active">
+                <a href="#tab-general" data-toggle="tab">基本信息</a>
+              </li>
+              <li>
+                <a href="#tab-seo" data-toggle="tab">SEO信息</a>
+              </li>
+            </ul>
+            <div class="tab-content">
+              <div class="tab-pane active" id="tab-general">
+                <div class="form-group required">
+                  <label class="col-sm-2 control-label" for="input-name2">分类名称</label>
+                  <div class="col-sm-10">
+                    <input type="text" name="title" value="" placeholder="分类名称" id="input-title" class="form-control" />
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-sm-2 control-label" for="input-parent">上级分类</label>
+                  <div class="col-sm-10">
+                    <select name="parent_id" value="" id="input-parent_id" class="form-control">
+                	<option value="0">--顶级分类--</option>
+                      <volist name="category_list" id="category">
+	                    <option value="{$category['category_id']}">{:str_repeat('&nbsp;', $category['deep']*4)}{$category['title']}</option>
+	                  </volist>
+                    </select>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-sm-2 control-label" for="input-description2">分类描述</label>
+                  <div class="col-sm-10">
+                    <textarea name="description" placeholder="分类描述" id="input-description" class="form-control"></textarea>
+                  </div>
+                </div>
+                 <div class="form-group">
+                  <label class="col-sm-2 control-label" for="input-sort_number">排序</label>
+                  <div class="col-sm-10">
+                    <input type="text" name="sort_number" value="0" placeholder="排序" id="input-sort_number" class="form-control" />
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-sm-2 control-label" for="input-is_used">状态</label>
+                  <div class="col-sm-10">
+                    <select name="is_used" id="input-is_used" class="form-control">
+                      <option value="1" selected="selected">启用</option>
+                      <option value="0">停用</option>
+                    </select>
+                  </div>
+                </div>
+
+                 <div class="form-group">
+                  <label class="col-sm-2 control-label">图片</label>
+                  <div class="col-sm-10">
+                    <input id="input-image" type="file" name="image" class="">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-sm-2 control-label" for="input-is_nav">
+                    <span data-toggle="tooltip" title="显示在顶部菜单栏。仅在顶部父分类中。">导航栏显示</span>
+                  </label>
+                  <div class="col-sm-10">
+                    <div class="checkbox">
+                      <label>
+                        <input type="checkbox" name="is_nav" value="1" id="input-is_nav" />
+                        &nbsp;
+                      </label>
+                    </div>
+                  </div>
+                </div>
+                
+              </div>
+              <div class="tab-pane" id="tab-seo">
+                <div class="form-group">
+                  <label class="col-sm-2 control-label" for="input-meta_title">Meta Tag 标题</label>
+                  <div class="col-sm-10">
+                    <input type="text" name="meta_title" value="" placeholder="Meta Tag 标题" id="input-meta_title" class="form-control" />
+                  </div>
+                </div>
+                
+                <div class="form-group">
+                  <label class="col-sm-2 control-label" for="input-meta_keywords">Meta Tag 关键字</label>
+                  <div class="col-sm-10">
+                    <textarea name="meta_keywords" rows="3" placeholder="Meta Tag 关键字" id="input-meta_keywords" class="form-control"></textarea>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="col-sm-2 control-label" for="input-meta_description2">Meta Tag 描述</label>
+                  <div class="col-sm-10">
+                    <textarea name="meta_description" rows="5" placeholder="Meta Tag 描述" id="input-meta_description" class="form-control"></textarea>
+                  </div>
+                </div>              
+               
+              </div>
+
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="__PUBLIC__/Back/jquery-validation/jquery.validate.min.js"></script>
+  <script src="__PUBLIC__/Back/jquery-validation/additional-methods.min.js"></script>
+  <script src="__PUBLIC__/Back/jquery-validation/messages_zh.js"></script>
+
+  <script>
+  $('#form-category').validate({
+  	rules: {
+  		title : {
+  			required: true,
+  			rangelength: [4, 12]
+  		},
+  		sort_number : {
+  			digits: true
+  		},
+  		image: {
+  			accept: 'image/png,image/jpeg,image/gif'
+  		}
+  	},
+  	messages: {
+  		image: {
+  			accept: '上传文件类型错误',
+  		}
+  	}
+  });
+
+ </script> 
+
+</block>

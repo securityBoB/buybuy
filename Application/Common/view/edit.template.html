@@ -1,0 +1,47 @@
+<extend name="Layout/Back" />
+
+<block name="content">
+
+
+<div id="content">
+    <div class="page-header">
+      <div class="container-fluid">
+        <div class="pull-right">
+          <button type="submit" form="form-category" data-toggle="tooltip" title="保存" class="btn btn-primary">
+            <i class="fa fa-save"></i>
+          </button>
+          <a href="" data-toggle="tooltip" title="取消" class="btn btn-default">
+            <i class="fa fa-reply"></i>
+          </a>
+        </div>
+        <h1>__CONTROLLER_TITLE__</h1>
+        <ul class="breadcrumb">
+          <li>
+            <a href="">__ACTION_TITLE__</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="container-fluid">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h3 class="panel-title">
+            <i class="fa fa-pencil"></i>
+            __ACTION_TITLE__
+          </h3>
+        </div>
+        <div class="panel-body">
+          <form action="{:U('edit')}" method="post" enctype="multipart/form-data" id="form-category" class="form-horizontal">
+            <input type="hidden" name="__PK_FIELD__" value="{$row['__PK_FIELD__']}" >
+            <div class="tab-content">
+
+              __ELEMENT_LIST__
+
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</block>

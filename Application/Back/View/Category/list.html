@@ -1,0 +1,135 @@
+<extend name="Layout/Back" />
+<block name="content">
+<div id="content">
+	<div class="page-header">
+		<div class="container-fluid">
+			<div class="pull-right">
+				<a class="btn btn-primary" title="" data-toggle="tooltip"
+					href="{:U('Back/Category/add')}"
+					data-original-title="新增"><i class="fa fa-plus"></i></a> <a
+					class="btn btn-default" title="" data-toggle="tooltip"
+					href="http://localhost/oc2.1.0.1-cn-free/admin/index.php?route=catalog/category/repair&amp;token=myEBHwkdI5EfsoF1gUpDD62vOwiYs55V"
+					data-original-title="重建"><i class="fa fa-refresh"></i></a>
+				<button
+					onclick="confirm('确认？') ? $('#form-category').submit() : false;"
+					class="btn btn-danger" title="" data-toggle="tooltip" type="button"
+					data-original-title="删除">
+					<i class="fa fa-trash-o"></i>
+				</button>
+			</div>
+			<h1>商品分类</h1>
+			<ul class="breadcrumb">
+				<li><a
+					href="http://localhost/oc2.1.0.1-cn-free/admin/index.php?route=common/dashboard&amp;token=myEBHwkdI5EfsoF1gUpDD62vOwiYs55V">首页</a></li>
+				<li><a
+					href="http://localhost/oc2.1.0.1-cn-free/admin/index.php?route=catalog/category&amp;token=myEBHwkdI5EfsoF1gUpDD62vOwiYs55V">商品分类</a></li>
+			</ul>
+		</div>
+	</div>
+	<div class="container-fluid">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h3 class="panel-title">
+					<i class="fa fa-list"></i> 商品分类列表
+				</h3>
+			</div>
+			<div class="panel-body">
+				<form id="form-category" enctype="multipart/form-data" method="post"
+					action="http://localhost/oc2.1.0.1-cn-free/admin/index.php?route=catalog/category/delete&amp;token=myEBHwkdI5EfsoF1gUpDD62vOwiYs55V">
+					<div class="table-responsive">
+						<table class="table table-bordered table-hover">
+							<thead>
+								<tr>
+									<td class="text-center" style="width: 1px;"><input
+										type="checkbox"
+										onclick="$('input[name*=\'selected\']').prop('checked', this.checked);"></td>
+									<td class="text-left"><a class="asc"
+										href="http://localhost/oc2.1.0.1-cn-free/admin/index.php?route=catalog/category&amp;token=myEBHwkdI5EfsoF1gUpDD62vOwiYs55V&amp;sort=name&amp;order=DESC">分类名称</a>
+									</td>
+									<td class="text-right"><a
+										href="http://localhost/oc2.1.0.1-cn-free/admin/index.php?route=catalog/category&amp;token=myEBHwkdI5EfsoF1gUpDD62vOwiYs55V&amp;sort=sort_order&amp;order=DESC">分类顺序</a>
+									</td>
+									<td class="text-right">编辑分类</td>
+								</tr>
+							</thead>
+							<tbody>
+							 <volist name="category_list" id="category">
+								<tr data-deep="{$category['deep']}">
+									<td class="text-center"><input type="checkbox" value="{$category['category_id']}"
+										name="selected[]"></td>
+									<td class="text-left"><a href="" class="minus-plus"  style="margin-left:{$category['deep']*20}px"><i class="fa-minus fa"></i></a>{$category['title']}</td>
+									<td class="text-right">{$category['sort-number']}</td>
+									<td class="text-right"><a class="btn btn-primary" title=""
+										data-toggle="tooltip"
+										href="http://localhost/oc2.1.0.1-cn-free/admin/index.php?route=catalog/category/edit&amp;token=myEBHwkdI5EfsoF1gUpDD62vOwiYs55V&amp;category_id=62"
+										data-original-title="编辑"><i class="fa fa-pencil"></i></a></td>
+								</tr>
+							</volist>
+								
+							</tbody>
+						</table>
+					</div>
+				</form>
+			
+			
+			
+			
+			</div>
+		</div>
+	</div>
+</div>
+<script>
+
+$(function()
+		{
+	        $('.minus-plus').on('click',function(event)
+	        		{
+	        	    
+	        	    var crrutTr = $(this).parent().parent();
+	        	     
+	        	    var deep    = crrutTr.attr('data-deep'); 
+	        	    
+	        	    var nextTr = crrutTr.nextAll('tr');
+	        	    
+	        	    
+	        	    if(crrutTr.find('i').eq(0).hasClass('fa-minus fa'))
+	        	    	{
+	        	    	    var status = 'minus';
+	        	    	}
+	        	    if(crrutTr.find('i').eq(0).hasClass('fa-plus fa'))
+	        	    	{
+	        	    	    var status = 'plus'
+	        	    	}
+	        	    
+	        	    console.log(status);
+	        	    
+	        	        nextTr.each(function(i)
+	        	        		{
+	        	        	       if(deep < $(this).attr('data-deep'))
+	        	        	    	   {  
+	        	        	    	      if(status == 'minus')
+	        	        	    	    	  {
+	        	        	    	    	   $(this).hide();
+	        	        	    	    	   crrutTr.find('i').eq(0).removeClass('fa-minus fa').addClass('fa-plus fa');
+	        	        	    	    	  }else if(status == 'plus')
+	        	        	    	    		  {
+	        	        	    	    		   $(this).show();
+	        	        	    	    		   crrutTr.find('i').eq(0).removeClass('fa-plus fa').addClass('fa-minus fa');
+	        	        	    	    		  }
+	        	        	    	     
+	        	        	    	   }else
+	        	        	    		   {
+	        	        	    		     return false;
+	        	        	    		   }
+	        	        		});
+	        	    
+	        	   
+                     event.preventDefault();
+	        		});
+		});
+
+
+
+</script>
+</block>
+

@@ -1,0 +1,89 @@
+<extend name="Layout/Back" />
+<block name="content">
+
+ <div id="content">
+    <div class="page-header">
+      <div class="container-fluid">
+        <div class="pull-right">
+          <a href="{:U('add')}" data-toggle="tooltip" title="新增" class="btn btn-primary">
+            <i class="fa fa-plus"></i>
+          </a>
+          <a href="" data-toggle="tooltip" title="重建" class="btn btn-default">
+            <i class="fa fa-refresh"></i>
+          </a>
+          <button type="button" data-toggle="tooltip" title="删除" class="btn btn-danger" onclick="confirm('确认？') ? $('#form-category').submit() : false;">
+            <i class="fa fa-trash-o"></i>
+          </button>
+        </div>
+        <h1>__CONTROLLER_TITLE__</h1>
+        <ul class="breadcrumb">
+          <li>
+            <a href="">首页</a>
+          </li>
+          <li>
+            <a href="">__ACTION_TITLE__</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="container-fluid">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h3 class="panel-title">
+            <i class="fa fa-list"></i>
+            __ACTION_TITLE__
+          </h3>
+        </div>
+        <div class="panel-body">
+          <form action="" method="post" enctype="multipart/form-data" id="form-category">
+            <div class="table-responsive">
+              <table class="table table-bordered table-hover">
+                <thead>
+                  <tr>
+                    <td style="width: 1px;" class="text-center">
+                      <input type="checkbox" onclick=""/>
+                    </td>
+
+                    __HEAD_LIST__
+                    
+                                      
+                    <td class="text-right">管理</td>
+                  </tr>
+                </thead>
+
+                <tbody>
+                  <volist name="list" id="row">
+                  <tr>
+
+                    <td class="text-center">
+                      <input type="checkbox" name="selected[]" value="{$row['__PK_FIELD__']}" />
+                    </td>
+
+                    __BODY_LIST__
+
+
+                    <td class="text-right">
+                      <a href="{:U('edit', ['__PK_FIELD__'=>$row['__PK_FIELD__']])}" data-toggle="tooltip" title="编辑" class="btn btn-primary">
+                        <i class="fa fa-pencil"></i>
+                      </a>
+                      <a href="{:U('remove', ['__PK_FIELD__'=>$row['__PK_FIELD__']])}" data-toggle="tooltip" title="删除" class="btn btn-primary">
+                        <i class="fa fa-trash"></i>
+                      </a>
+                    </td>
+                  </tr>
+                </volist>
+                  
+                </tbody>
+              </table>
+            </div>
+          </form>
+
+          <div class="row">
+          {$page_html}
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</block>

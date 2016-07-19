@@ -1,0 +1,307 @@
+<extend name="Layout/Back" />
+<block name="content">
+<div id="content">
+	<div class="page-header">
+		<div class="container-fluid">
+			<div class="pull-right">
+				<a class="btn btn-primary" title="" data-toggle="tooltip"
+					href="{:U('Back/Goods/add')}" data-original-title="新增"><i
+					class="fa fa-plus"></i></a>
+				<button
+					onclick="$('#form-product').attr('action', 'http://localhost/oc2.1.0.1-cn-free/admin/index.php?route=catalog/product/copy&amp;token=yA7RoHQHe7PguGklFsOIIPBdyj3S8blY').submit()"
+					class="btn btn-default" title="" data-toggle="tooltip"
+					type="button" data-original-title="复制">
+					<i class="fa fa-copy"></i>
+				</button>
+				<button
+					onclick="confirm('确认？') ? $('#form-product').submit() : false;"
+					class="btn btn-danger" title="" data-toggle="tooltip" type="button"
+					data-original-title="删除">
+					<i class="fa fa-trash-o"></i>
+				</button>
+			</div>
+			<h1>商品管理</h1>
+			<ul class="breadcrumb">
+				<li><a href="">首页</a></li>
+				<li><a href="">商品管理</a></li>
+			</ul>
+		</div>
+	</div>
+	<div class="container-fluid">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h3 class="panel-title">
+					<i class="fa fa-list"></i> 商品列表
+				</h3>
+			</div>
+			<div class="panel-body">
+				<div class="well">
+					<form action="{:U('Back/Goods/list')}" method="get"
+						id="form-submit">
+						<div class="row">
+							<div class="col-sm-4">
+								<div class="form-group">
+									<label for="input-name" class="control-label">商品名称</label> <input
+										type="text" class="form-control" id="input-name"
+										placeholder="商品名称" value="{$filter_name}" name="filter_name"
+										autocomplete="off">
+									<ul class="dropdown-menu"></ul>
+								</div>
+							</div>
+							<div class="col-sm-2">
+								<div class="form-group">
+									<label for="input-price" class="control-label">价格下限</label> <input
+										type="text" class="form-control" id="input-price-min"
+										placeholder="价格下线" value="{$filter_price_min}"
+										name="filter_price_min">
+								</div>
+							</div>
+
+							<div class="col-sm-2">
+								<div class="form-group">
+									<label for="input-price" class="control-label">价格上限</label> <input
+										type="text" class="form-control" id="input-price-max"
+										placeholder="价格上线" value="{$filter_price_max}"
+										name="filter_price_max">
+								</div>
+							</div>
+
+							<div class="col-sm-4">
+								<div class="form-group">
+									<label for="input-status" class="control-label">状态</label> <select
+										class="form-control" id="input-status" name="filter_status">
+										<option value="">全部</option>
+										<if condition="$filter_status eq '1'">
+										<option value="1" selected="selected">启用</option>
+										<else />
+										<option value="1">启用</option>
+										</if>
+										<if condition="$filter_status eq '0'">
+										<option value="0" selected>停用</option>
+										<else />
+										<option value="0">停用</option>
+										</if>
+
+									</select>
+								</div>
+								<button class="btn btn-primary pull-right" id="button-filter"
+									type="submit" onclick="submit();">
+									<i class="fa fa-search"></i> 筛选
+								</button>
+							</div>
+						</div>
+
+					</form>
+
+				</div>
+				<form id="form-product" enctype="multipart/form-data" method="post"
+					action="">
+					<div class="table-responsive">
+						<table class="table table-bordered table-hover">
+							<thead>
+								<tr>
+									<td class="text-center" style="width: 1px;"><input
+										type="checkbox"
+										onclick="$('input[name*=\'selected\']').prop('checked', this.checked);"></td>
+									<td class="text-center">图片</td>
+<?php
+	$name_param = $search;
+    $name_param['order_field'] ='name';
+    $name_param['order_method'] = 'asc';
+    if($_REQUEST['order_field'] =='name')
+    {
+        if($_REQUEST['order_method'] == 'asc')
+           {
+             $name_param['order_method'] = 'desc';
+             
+           } 
+        else
+             $name_param['order_method'] = 'asc';
+
+        $name_class = $name_param['order_method'];
+        
+    }
+    else
+    {
+        $name_class = '';
+    }
+									  
+?>
+									<td class="text-left"><a  class = "{$name_class}" href="{:U('Back/Goods/list',$name_param)}">商品名称</a></td>
+									<td class="text-left"><a href="">商品型号</a></td>
+   <?php
+	$price_param = $search;
+    $price_param['order_field'] ='price';
+    $price_param['order_method'] = 'asc';
+    if($_REQUEST['order_field'] == 'price' )
+    {  
+       
+        if($_REQUEST['order_method'] == 'asc')
+           {
+             $price_param['order_method'] = 'desc';
+             
+           } 
+        else
+             $price_param['order_method'] = 'asc';
+
+        $price_class = $price_param['order_method'];
+        
+      
+    }
+    else
+    {
+        $price_class = '';
+    }
+									  
+?>
+									<td class="text-right"><a class ="{$price_class}" href="{:U('Back/Goods/list',$price_param)}">价格</a></td>
+<?php
+	$quantity_param = $search;
+    $quantity_param['order_field'] ='quantity';
+    $quantity_param['order_method'] = 'asc';
+    if($_REQUEST['order_field'] =='quantity')
+    {
+        if($_REQUEST['order_method'] == 'asc')
+           {
+             $quantity_param['order_method'] = 'desc';
+             
+           } 
+        else
+             $quantity_param['order_method'] = 'asc';
+
+        $quantity_class = $quantity_param['order_method'];
+        
+    }
+    else
+    {
+        $quantity_class = '';
+    }
+									  
+?>
+									<td class="text-right"><a  class= "{$quantity_class}" href="{:U('Back/Goods/list',$quantity_param)}">数量</a></td>
+									<td class="text-left"><a href="">状态</a></td>
+									<td class="text-right">管理</td>
+									<td class="text-right">选项</td>
+									
+								</tr>
+							</thead>
+							<tbody>
+								<volist name="goods_list" id="goods">
+								<tr>
+									<td class="text-center"><input type="checkbox" value="71"
+										name="selected[]"></td>
+									<td class="text-center"><img class="img-thumbnail"
+										alt="2016时尚墨镜 女士偏光太阳镜潮人欧美复古圆框眼镜驾驶镜"
+										src="__PUBLIC__/Thumb/goods/{$goods['thumb']}"></td>
+									<td class="text-left">{$goods['name']}</td>
+									<td class="text-left">{$goods['upc']}</td>
+									<td class="text-right"><span
+										style="text-decoration: line-through;">8867.0000</span><br>
+										<div class="text-danger">{$goods['price']}</div></td>
+									<td class="text-right"><span class="label label-success">{$goods['quantity']}</span>
+									</td>
+									<if condition="$goods['status'] eq 1">
+									<td class="text-left">启用</td>
+									<else />
+									<td class="text-left">停用</td>
+									</if>
+									      <td class="text-right"><a class="btn btn-primary" title=""
+										data-toggle="tooltip" href="" data-original-title="编辑"><i
+											class="fa fa-pencil"></i></a>
+											</td>
+											  <td class="text-right"><a class="btn btn-primary" title=""
+										data-toggle="tooltip" href="{:U('Back/Goods/option',['goods_id'=>$goods['goods_id']])}" data-original-title="选项"><i
+											class="fa ">O</i></a>
+											</td>
+								</tr>
+								</volist>
+
+							</tbody>
+						</table>
+					</div>
+				</form>
+				<div class="row">{$page}</div>
+			</div>
+		</div>
+	</div>
+	
+	<!--
+  <script type="text/javascript">
+// $('#button-filter').on('click', function() {
+// 	var url = 'index.php?route=catalog/product&amp;token=yA7RoHQHe7PguGklFsOIIPBdyj3S8blY';
+
+// 	var filter_name = $('input[name=\'filter_name\']').val();
+
+// 	if (filter_name) {
+// 		url += '&amp;filter_name=' + encodeURIComponent(filter_name);
+// 	}
+
+// 	var filter_model = $('input[name=\'filter_model\']').val();
+
+// 	if (filter_model) {
+// 		url += '&amp;filter_model=' + encodeURIComponent(filter_model);
+// 	}
+
+// 	var filter_price = $('input[name=\'filter_price\']').val();
+
+// 	if (filter_price) {
+// 		url += '&amp;filter_price=' + encodeURIComponent(filter_price);
+// 	}
+
+// 	var filter_quantity = $('input[name=\'filter_quantity\']').val();
+
+// 	if (filter_quantity) {
+// 		url += '&amp;filter_quantity=' + encodeURIComponent(filter_quantity);
+// 	}
+
+// 	var filter_status = $('select[name=\'filter_status\']').val();
+
+// 	if (filter_status != '*') {
+// 		url += '&amp;filter_status=' + encodeURIComponent(filter_status);
+// 	}
+
+// 	location = url;
+// });
+ //--&gt;</script> -->
+	<!--   <script type="text/javascript"> -->
+	<!--  // $('input[name=\'filter_name\']').autocomplete({
+// 	'source': function(request, response) {
+// 		$.ajax({
+// 			url: 'index.php?route=catalog/product/autocomplete&amp;token=yA7RoHQHe7PguGklFsOIIPBdyj3S8blY&amp;filter_name=' +  encodeURIComponent(request),
+// 			dataType: 'json',
+// 			success: function(json) {
+// 				response($.map(json, function(item) {
+// 					return {
+// 						label: item['name'],
+// 						value: item['product_id']
+// 					}
+// 				}));
+// 			}
+// 		});
+// 	},
+// 	'select': function(item) {
+// 		$('input[name=\'filter_name\']').val(item['label']);
+// 	}
+// });
+
+// $('input[name=\'filter_model\']').autocomplete({
+// 	'source': function(request, response) {
+// 		$.ajax({
+// 			url: 'index.php?route=catalog/product/autocomplete&amp;token=yA7RoHQHe7PguGklFsOIIPBdyj3S8blY&amp;filter_model=' +  encodeURIComponent(request),
+// 			dataType: 'json',
+// 			success: function(json) {
+// 				response($.map(json, function(item) {
+// 					return {
+// 						label: item['model'],
+// 						value: item['product_id']
+// 					}
+// 				}));
+// 			}
+// 		});
+// 	},
+// 	'select': function(item) {
+// 		$('input[name=\'filter_model\']').val(item['label']);
+// 	}
+// });
+ //--&gt;</script></div> -->
+</block>

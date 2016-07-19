@@ -1,0 +1,82 @@
+
+			<h1>购物车内的商品 &nbsp;({$total_weight}kg)</h1>
+			<form enctype="multipart/form-data" method="post"
+				action="">
+				<div class="table-responsive">
+					<table class="table table-bordered">
+						<thead>
+							<tr>
+								<td class="text-center">图片</td>
+								<td class="text-left">商品名称</td>
+								<td class="text-left">型号</td>
+								<td class="text-left">数量</td>
+								<td class="text-right">单价</td>
+								<td class="text-right">总计</td>
+							</tr>
+						</thead>
+						<tbody>
+						<volist name="goods_list" id="goods">
+							<tr>
+								<td class="text-center"><a
+									href="{:U('Home/Shop/goods',['id'=>$goods['goods_id']])}"><img
+										class="img-thumbnail" title="{$goods['name']}"
+										alt="{$goods['name']}"
+										src="__PUBLIC__/Thumb/goods/{$goods['thumb']}"></a>
+								</td>
+								<td class="text-left"><a
+									href="">{$goods['name']}&nbsp;&nbsp;{$goods['attr_val']}</a>
+								</td>
+								<td class="text-left">{$goods['upc']}</td>
+								<td class="text-left"><div style="max-width: 200px;"
+										class="input-group btn-block">
+										<input type="text" class="form-control" size="1" value="{$goods['quantity']}"
+											name="quantity[80]"> <span class="input-group-btn">
+											<button class="btn btn-primary" title=""
+												data-toggle="tooltip" type="submit" data-original-title="更新">
+												<i class="fa fa-refresh"></i>
+											</button>
+											<empty name="goods['gav_list']">
+	<button onclick="cartRemove({$goods['goods_id']});" class="btn btn-danger" title="" data-toggle="tooltip" type="button" data-original-title="移除">
+											<else /> 
+	<button onclick="cartRemove({$goods['goods_id']},'{$goods['gav_list']}');" class="btn btn-danger" title="" data-toggle="tooltip" type="button" data-original-title="移除">
+											</empty>
+										
+												<i class="fa fa-times-circle"></i>
+											</button>
+										</span>
+									</div></td>
+								<td class="text-right">￥{$goods['real_price']}.00</td>
+								<td class="text-right">￥{$goods['total_price']}.00</td>
+							</tr>
+						</volist>
+						</tbody>
+					</table>
+				</div>
+			</form>
+			<div class="row">
+				<div class="col-sm-4 col-sm-offset-8">
+					<table class="table table-bordered">
+						<tbody>
+							<tr>
+								<td class="text-right"><strong>商品总额:</strong></td>
+								<td class="text-right">￥{$max_total}.00</td>
+							</tr>
+							<tr>
+								<td class="text-right"><strong>订单总额:</strong></td>
+								<td class="text-right">￥{$max_total}.00</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+			<div class="buttons">
+				<div class="pull-left">
+					<a class="btn btn-default"
+						href="">继续购物</a>
+				</div>
+				<div class="pull-right">
+					<a class="btn btn-primary"
+						href="">去结账</a>
+				</div>
+			</div>
+
